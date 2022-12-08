@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "117365128441",
+    "project_id": "e-tender-248c8",
+    "storage_bucket": "e-tender-248c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117365128441:android:9430b16db091c3ce94b628",
+        "android_client_info": {
+          "package_name": "com.thenexthop.etenderv1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "117365128441-8o2l8rse3nv48jgcik3et1110eg4c6n9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHErEtI6Q1ULDVWZk-KY8g5w_LUoiQZas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "117365128441-8o2l8rse3nv48jgcik3et1110eg4c6n9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
