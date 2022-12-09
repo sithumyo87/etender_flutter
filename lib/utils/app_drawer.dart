@@ -3,7 +3,6 @@ import 'package:etender_app_1/utils/app_link.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -53,19 +52,19 @@ class _AppDrawerState extends State<AppDrawer> {
             child: ListView(
               children: [
                 AppHeader('For Members', loginUserEmail!),
-                AppLink(Icons.picture_as_pdf,  AppLocalizations.of(context)!.free_tender, () {
+                AppLink(Icons.picture_as_pdf, 'Free tenders', () {
                   Navigator.pushReplacementNamed(context, '/ftender');
                 }),
-                AppLink(Icons.picture_as_pdf,  AppLocalizations.of(context)!.paid_tender, () {
+                AppLink(Icons.picture_as_pdf, 'Paid tenders', () {
                   Navigator.pushReplacementNamed(context, '/ptender');
                 }),
-                // AppLink(Icons.delete_forever, 'Delete Account', () {
-                //   Navigator.pushReplacementNamed(context, '/delete_account');
-                // }),
-                AppLink(Icons.email, AppLocalizations.of(context)!.all_mails, () {
-                  Navigator.pushReplacementNamed(context, '/message');
+                AppLink(Icons.delete_forever, 'Delete Account', () {
+                  Navigator.pushReplacementNamed(context, '/delete_account');
                 }),
-                AppLink(Icons.settings, AppLocalizations.of(context)!.setting,(){userSetting;
+
+
+                AppLink(Icons.settings, 'User Settings', () {
+                  Navigator.pushReplacementNamed(context, '/user_setting');
                 }),
               ],
             ),
@@ -100,7 +99,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 _asyncConfirmDialog(context);
               },
               child: new Text(
-                AppLocalizations.of(context)!.logout,
+                "LogOut",
                 style: TextStyle(
                   color: Colors.blue,
                   fontSize: 14,
@@ -120,11 +119,6 @@ class _AppDrawerState extends State<AppDrawer> {
       await launch(url);
     else
       throw "Could not launch $url";
-  }
-
-  void userSetting(){
-     Navigator.pushNamed(
-        context, '/user_setting');
   }
 
   // logout alert  ----- start

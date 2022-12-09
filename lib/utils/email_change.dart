@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:etender_app_1/utils/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -64,12 +64,13 @@ class _EmailChangeState extends State<EmailChange> {
             children: [
               errorWidget(),
               successWidget(),
-              formWiget(AppLocalizations.of(context)!.email_new_add,emailController),
-              formWiget(AppLocalizations.of(context)!.password,oldPasswordController,"ယခုအီးမေးလ်လိပ်စာ၏စကားဝှက်ကိုဖြည့်သွင်းရမည်",true),
+              formWiget('New Email',emailController),
+              formWiget("Account Password",oldPasswordController,"ယခုအီးမေးလ်လိပ်စာ၏စကားဝှက်ကိုဖြည့်သွင်းရမည်"),
               actionButton(context),
             ],
           ),
         ),
+        drawer: AppDrawer(),
       ),
       onWillPop: () async {
         goToBack();
@@ -124,12 +125,12 @@ class _EmailChangeState extends State<EmailChange> {
   }
 
 Widget formWiget(String name, TextEditingController textController,
-      [hintTxt,checkps=false]) {
+      [hintTxt]) {
+        
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: TextFormField(
         controller: textController,
-        obscureText: checkps,
         decoration: InputDecoration(
           isDense: true,
           border: OutlineInputBorder(),
@@ -158,7 +159,7 @@ Widget formWiget(String name, TextEditingController textController,
             style: ElevatedButton.styleFrom(
                 primary: Colors.black38,
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7)),
-            child: Text(AppLocalizations.of(context)!.cancel, style: TextStyle(fontSize: 15))),
+            child: Text('Cancel', style: TextStyle(fontSize: 15))),
         SizedBox(
           width: 10,
         ),
@@ -170,13 +171,10 @@ Widget formWiget(String name, TextEditingController textController,
               if (_formKey.currentState!.validate()) {
                 startLoading();
                 changeSetting();
-                _formKey.currentState?.reset();
-                  emailController.clear();
-                  oldPasswordController.clear();
               }
             },
             child: Text(
-              AppLocalizations.of(context)!.update,
+              'Update',
               style: TextStyle(fontSize: 15),
             )),
       ],
@@ -206,7 +204,7 @@ Widget formWiget(String name, TextEditingController textController,
         });
         stopLoading();
         setState(() {
-          successMsg =  AppLocalizations.of(context)!.email_change_upd;
+          successMsg =  'Email Updated!';
           errorMsg = null;
         });
         logout();

@@ -8,39 +8,19 @@ import 'package:etender_app_1/screens/ftender_detail.dart';
 import 'package:etender_app_1/screens/login.dart';
 import 'package:etender_app_1/screens/ptender.dart';
 import 'package:etender_app_1/screens/ptender_detail.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:overlay_support/overlay_support.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import 'models/tender_model.dart';
-
-import 'package:etender_app_1/Provider/LocaleProvider.dart';
-import 'package:etender_app_1/models/push_notification.dart';
-import 'package:etender_app_1/screens/delete_account.dart';
-import 'package:etender_app_1/screens/ftender.dart';
-import 'package:etender_app_1/screens/ftender_detail.dart';
-import 'package:etender_app_1/screens/login.dart';
-import 'package:etender_app_1/screens/ptender.dart';
-import 'package:etender_app_1/screens/ptender_detail.dart';
+import 'package:etender_app_1/screens/register.dart';
+import 'package:etender_app_1/screens/reset_password.dart';
 import 'package:etender_app_1/utils/email_change.dart';
-import 'package:etender_app_1/utils/message_noti.dart';
-import 'package:etender_app_1/utils/lang.dart';
-import 'package:etender_app_1/utils/password_change.dart';
 import 'package:etender_app_1/utils/password_confirm.dart';
 import 'package:etender_app_1/utils/phone_change.dart';
+import 'package:etender_app_1/utils/user_setting.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'models/tender_model.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
@@ -262,28 +242,15 @@ class _MyAppState extends State<MyApp> {
           '/ptender': (context) => Ptender(),
           '/ptender_detail': (context) => PtenderDetail(),
           '/delete_account': (context) => DeleteAccount(),
-
-          '/delete_account': (context) => DeleteAccount(),
+          '/register': (context) => Register(),
+          '/reset_password': (context) => ResetPassword(),
+          '/user_setting' :(context) => UserSetting(),
           '/email_change': (context) => EmailChange(),
           '/phone_change' : (contxt) => PhoneChange(),
-          '/password_change' :(context) => PasswordChange(),
           '/password_confirm' :(context) => PasswordConfirm(),
-          '/lang' :(context) => Lang(),
-          '/message' : (context) => MessageNoti(),
         },
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Pyidaungsu'),
-        locale: context.watch<LocaleProvider>().locale,
-        localizationsDelegates: [
-          // AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: [
-          Locale('en', ''), // English, no country code
-          Locale('my', ''), // Spanish, no country code
-        ],
       ),
     );
   }

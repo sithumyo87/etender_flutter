@@ -1,8 +1,5 @@
+import 'package:etender_app_1/utils/app_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class UserSetting extends StatefulWidget {
   const UserSetting({super.key});
@@ -21,23 +18,18 @@ class _UserSettingState extends State<UserSetting> {
             Expanded(
               child: ListView(children: [
                 settingWidget(
-                    Icons.person, AppLocalizations.of(context)!.name_change, name),
-                settingWidget(
-                    Icons.phone, AppLocalizations.of(context)!.phone_change, phone),
-                settingWidget(
-                    Icons.email, AppLocalizations.of(context)!.email_change, email),
-                settingWidget(Icons.password_rounded, AppLocalizations.of(context)!.reset_psw, password),
-                settingWidget( Icons.delete_forever, AppLocalizations.of(context)!.account_deletion, accDelClick,Colors.red),
-                settingWidget(
-                    Icons.language, AppLocalizations.of(context)!.language_change, lang),
+                    Icons.phone, 'Chaneg Phone Number',phone),
+                settingWidget(Icons.email, 'Change Email', email),
+                settingWidget(Icons.password_rounded, 'Change Email', password),
               ]),
             )
           ],
         ),
+        drawer: AppDrawer(),
       );
   }
 
-  Widget settingWidget(icon, text, _onTap,[color]) {
+  Widget settingWidget(icon, text, _onTap) {
     var msize = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 5),
@@ -61,7 +53,7 @@ class _UserSettingState extends State<UserSetting> {
                       ),
                       Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: Text(text,style: TextStyle(color: color)),
+                        child: Text(text),
                       ),
                     ],
                   ),
@@ -81,8 +73,8 @@ class _UserSettingState extends State<UserSetting> {
  AppBar applicationBar() {
     return AppBar(
       centerTitle: true,
-      title:  Text(AppLocalizations.of(context)!.user_setting,
-          style: TextStyle(fontSize: 18.0)),
+      title:  Text('Settting',
+        style: TextStyle(fontSize: 18.0)),
       automaticallyImplyLeading: false,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back),
@@ -90,17 +82,6 @@ class _UserSettingState extends State<UserSetting> {
           goToBack();
         },
       ),
-      actions: [
-        IconButton(
-          onPressed: () {
-            goToHomePage(context);
-          },
-          icon: const Icon(
-            Icons.home,
-            size: 18.0,
-          ),
-        ),
-      ],
     );
   }
 
@@ -131,19 +112,6 @@ class _UserSettingState extends State<UserSetting> {
   void password() {
      Navigator.pushNamed(
         context, '/password_confirm');
-  }
-
-  void name(){
-    Navigator.pushNamed(
-        context, '/name_change');
-  }
-
-void accDelClick() async{
-    var url = 'http://eformexample.moee.gov.mm/accountDeletion';
-    if (await canLaunch(url))
-      await launch(url);
-    else
-      throw "Could not launch $url";
   }
 
   

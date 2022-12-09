@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppHeader extends StatelessWidget {
   final String slogam = 'assets/images/logo.png';
-  final String app_name = 'E-tender App';
+  final String app_name = 'Etender App';
   final String header_title;
   final String login_user;
   const AppHeader(this.header_title, this.login_user, {Key? key}) : super(key: key);

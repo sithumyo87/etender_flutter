@@ -6,16 +6,16 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
 
-import '../utils/verify_resend_dialog.dart';
+import '../../utils/verify_resend_dialog.dart';
 
-class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
+class ResetPassword extends StatefulWidget {
+  const ResetPassword({Key? key}) : super(key: key);
 
   @override
-  State<Register> createState() => _RegisterState();
+  State<ResetPassword> createState() => _ResetPasswordState();
 }
 
-class _RegisterState extends State<Register> {
+class _ResetPasswordState extends State<ResetPassword> {
   bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
@@ -32,7 +32,7 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Register Account',
+          'Reset Password',
           style: TextStyle(fontSize: 18),
         ),
       ),
@@ -40,7 +40,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Widget loading() {
+   Widget loading() {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -57,33 +57,36 @@ class _RegisterState extends State<Register> {
   }
 
   Widget errorText(String? text) {
-    return Text(text ?? '',
-        textAlign: TextAlign.start,
-        style: TextStyle(
-          color: Colors.red,
-          fontSize: 12.0,
-        ));
+    return Text(
+      text ?? '',
+      textAlign: TextAlign.start,
+      style: const TextStyle(
+        color: Colors.red,
+        fontSize: 12.0,
+      ),
+    );
   }
 
   Widget body(context) {
     return SingleChildScrollView(
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              nameField(),
-              nameError != null ? errorText(nameError) : SizedBox(),
+              Container(
+                color: Colors.amber[700],
+                padding: EdgeInsets.all(20),
+                child: Text(
+                     'PLease Enter your email',
+                    style: TextStyle(color: Colors.white)),
+              ),
+              SizedBox(height: 10),
               emailField(),
               emailError != null ? errorText(emailError) : SizedBox(),
-              phoneField(),
-              phoneError != null ? errorText(phoneError) : SizedBox(),
-              passwordField(),
-              passwordError != null ? errorText(passwordError) : SizedBox(),
-              confPswField(),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
@@ -93,43 +96,17 @@ class _RegisterState extends State<Register> {
                       isLoading = true;
                     });
                     initializePrefs();
-                    register(context);
+                    reset(context);
                   }
                 },
-                child: const Text(
-                  "အကောင့်ပြုလုပ်မည်",
+                child:  Text(
+                   'Request To Reset Password',
                   style: TextStyle(fontSize: 14),
                 ),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget nameField() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 6, vertical: 10),
-      child: TextFormField(
-        controller: nameController,
-        enableSuggestions: false,
-        autocorrect: false,
-        decoration: InputDecoration(
-          isDense: true,
-          border: OutlineInputBorder(),
-          labelText: 'Name',
-          helperStyle: TextStyle(color: Colors.red),
-        ),
-        style: TextStyle(fontSize: 14),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Name';
-          } else if (value.length > 100) {
-            return "နာမည်စာလုံးအရေအတွက်မှာ အလုံး ၁၀၀ ထပ်မပိုရပါ။";
-          }
-          return null;
-        },
       ),
     );
   }
@@ -150,89 +127,9 @@ class _RegisterState extends State<Register> {
         style: TextStyle(fontSize: 14),
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Email';
+            return 'Enter Email';
           } else if (!EmailValidator.validate(value)) {
-            return 'Email';
-          }
-          return null;
-        },
-      ),
-    );
-  }
-
-  Widget passwordField() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 6, vertical: 10),
-      child: TextFormField(
-        controller: passwordController,
-        enableSuggestions: false,
-        obscureText: true,
-        autocorrect: false,
-        decoration: InputDecoration(
-          isDense: true,
-          border: OutlineInputBorder(),
-          labelText:  'Password',
-          helperStyle: TextStyle(color: Colors.red),
-        ),
-        style: TextStyle(fontSize: 14),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Password';
-          } else if (value.length > 20) {
-            return "စကားဝှက်အရေအတွက်မှာ အလုံး ၂၀ ထပ်မပိုရပါ။";
-          }
-          return null;
-        },
-      ),
-    );
-  }
-
-  Widget confPswField() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 6, vertical: 10),
-      child: TextFormField(
-        controller: confPasswordController,
-        enableSuggestions: false,
-        obscureText: true,
-        autocorrect: false,
-        decoration: InputDecoration(
-          isDense: true,
-          border: OutlineInputBorder(),
-          labelText: 'confirm Password',
-          helperStyle: TextStyle(color: Colors.red),
-        ),
-        style: TextStyle(fontSize: 14),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'confirm Password';
-          } else if (value != passwordController.text) {
-            return "စကားဝှက်နှင့် ကိုက်ညီမှုမရှိပါ။";
-          }
-          return null;
-        },
-      ),
-    );
-  }
-
-  Widget phoneField() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 6, vertical: 10),
-      child: TextFormField(
-        controller: phoneController,
-        decoration: InputDecoration(
-          isDense: true,
-          border: OutlineInputBorder(),
-          labelText: 'Phone',
-          helperStyle: TextStyle(color: Colors.red),
-        ),
-        style: TextStyle(fontSize: 14),
-        keyboardType: TextInputType.number,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return  'Phone';
-          } else if (value.length < 9 || value.length > 11) {
-            return "ဖုန်းနံပါတ်စာလုံးအရေအတွက်မှာ ၉လုံးမှ ၁၁ လုံးအတွင်းဖြစ်ရပါမည်။";
+            return 'Invalid Email';
           }
           return null;
         },
@@ -269,52 +166,24 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  void register(BuildContext context) async {
+  void reset(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var apiPath = prefs.getString("api_path");
     try {
-      var url = Uri.parse('${apiPath}api/registerxnf8sdb^&sdf5nonv');
+      var url = Uri.parse('${apiPath}api/reset_passwordndh&bdflRf');
       print('apiPathi $apiPath');
       var response = await http.post(url, body: {
-        'name': nameController.text,
         'email': emailController.text,
-        'phone': phoneController.text,
-        'password': passwordController.text,
       });
       Map data = jsonDecode(response.body);
       if (data['success'] == true) {
         stopLoading();
         inputClear();
         errorClear();
-        showVerifyDialog(data['title'], data['message'], context);
+        showAlertDialog(data['title'], data['message'], context);
       } else {
         stopLoading();
-        if (data['title'] == 'Validate Error') {
-          Map errors = data['errors'];
-          print('errors $errors');
-          if (errors['name'] != null) {
-            nameError = errors['name'].toString();
-          } else {
-            nameError = null;
-          }
-          if (errors['email'] != null) {
-            emailError = errors['email'].toString();
-          } else {
-            emailError = null;
-          }
-          if (errors['phone'] != null) {
-            phoneError = errors['phone'].toString();
-          } else {
-            phoneError = null;
-          }
-          if (errors['password'] != null) {
-            passwordError = errors['password'].toString();
-          } else {
-            passwordError = null;
-          }
-        } else {
-          showAlertDialog(data['title'], data['message'], context);
-        }
+        showAlertDialog(data['title'], data['message'], context);
       }
     } on SocketException catch (e) {
       print('http error $e');
@@ -328,20 +197,13 @@ class _RegisterState extends State<Register> {
 
   void inputClear() {
     setState(() {
-      nameController.text = '';
       emailController.text = '';
-      phoneController.text = '';
-      passwordController.text = '';
-      confPasswordController.text = '';
     });
   }
 
   void errorClear() {
     setState(() {
-      nameError = null;
       emailError = null;
-      phoneError = null;
-      passwordError = null;
     });
   }
 
@@ -398,7 +260,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void logout() async {
+   void logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('api_token');
     Navigator.pushNamedAndRemoveUntil(

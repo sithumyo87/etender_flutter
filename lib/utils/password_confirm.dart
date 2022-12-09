@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:etender_app_1/utils/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -56,20 +56,21 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
           children: [
             errorWidget(),
             successWidget(),
-            formWiget(AppLocalizations.of(context)!.add_old_password,oldPasswordController, 'oldPsw'),
-            formWiget(AppLocalizations.of(context)!.add_new_password,newPasswordController, 'newPsw'),
-            formWiget(AppLocalizations.of(context)!.confirm_password,confirmPasswordController, 'confPsw'),
+            formWiget('Old Password',oldPasswordController, 'oldPsw'),
+            formWiget('New Password',newPasswordController, 'newPsw'),
+            formWiget('Confirm Password',confirmPasswordController, 'confPsw'),
             actionButton(context),
           ],
         ),
-      )
+      ),
+      drawer: AppDrawer(),
     );
   }
 
   AppBar applicationBar() {
     return AppBar(
       centerTitle: true,
-      title:  Text( AppLocalizations.of(context)!.change_password,
+      title:  Text( 'Change Password',
           style: TextStyle(fontSize: 18.0)),
       automaticallyImplyLeading: false,
       leading: IconButton(
@@ -78,17 +79,6 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
           goToBack();
         },
       ),
-      actions: [
-        IconButton(
-          onPressed: () {
-            goToHomePage(context);
-          },
-          icon: const Icon(
-            Icons.home,
-            size: 18.0,
-          ),
-        ),
-      ],
     );
   }
 
@@ -178,7 +168,7 @@ Widget formWiget(String name, TextEditingController textController,
             style: ElevatedButton.styleFrom(
                 primary: Colors.black38,
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7)),
-            child: Text(AppLocalizations.of(context)!.cancel, style: TextStyle(fontSize: 15))),
+            child: Text('Cancel', style: TextStyle(fontSize: 15))),
         SizedBox(
           width: 10,
         ),
@@ -190,14 +180,10 @@ Widget formWiget(String name, TextEditingController textController,
               if (_formKey.currentState!.validate()) {
                 startLoading();
                 changeSetting();
-                _formKey.currentState?.reset();
-                  newPasswordController.clear();
-                  oldPasswordController.clear();
-                confirmPasswordController.clear();
               }
             },
             child: Text(
-             AppLocalizations.of(context)!.update,
+             'Update',
               style: TextStyle(fontSize: 15),
             )),
       ],
@@ -227,7 +213,7 @@ Widget formWiget(String name, TextEditingController textController,
         });
         stopLoading();
         setState(() {
-          successMsg = AppLocalizations.of(context)!.password_change_upd;
+          successMsg = 'Password Updated!';
           errorMsg = null;
         });
         print(data);

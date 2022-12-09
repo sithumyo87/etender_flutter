@@ -112,11 +112,11 @@ class _LoginState extends State<Login> {
     }catch(e){
       print('exception for moep $e');
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('api_path', 'https://etender.moee.gov.mm/');
+      await prefs.setString('api_path', 'https://ettest.moee.gov.mm/');
       setState(() {
-        prefs.setString('api_path', 'https://etender.moee.gov.mm/');
+        prefs.setString('api_path', 'https://ettest.moee.gov.mm/');
       });
-      print('main apiPath https://etender.moee.gov.mm/');
+      print('main apiPath https://ettest.moee.gov.mm/');
     }
   }
 
@@ -201,27 +201,29 @@ class _LoginState extends State<Login> {
   // loading widget ----- end
 
   void createLink() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var api_token = prefs.getString('api_token');
-    var apiPath = prefs.getString('api_path');
+    await Navigator.pushNamed(context, '/register');
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // var api_token = prefs.getString('api_token');
+    // var apiPath = prefs.getString('api_path');
 
-    var url = '${apiPath}member/register';
-    if (await canLaunch(url))
-      await launch(url);
-    else
-      throw "Could not launch $url";
+    // var url = '${apiPath}member/register';
+    // if (await canLaunch(url))
+    //   await launch(url);
+    // else
+    //   throw "Could not launch $url";
   }
 
   void resetLink() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var api_token = prefs.getString('api_token');
-    var apiPath = prefs.getString('api_path');
+    await Navigator.pushNamed(context, '/reset_password');
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // var api_token = prefs.getString('api_token');
+    // var apiPath = prefs.getString('api_path');
 
-    var url = '${apiPath}member/password/reset';
-    if (await canLaunch(url))
-      await launch(url);
-    else
-      throw "Could not launch $url";
+    // var url = '${apiPath}member/password/reset';
+    // if (await canLaunch(url))
+    //   await launch(url);
+    // else
+    //   throw "Could not launch $url";
   }
 
   @override
@@ -328,7 +330,7 @@ class _LoginState extends State<Login> {
       ],
     );
 
-    Widget Body() {
+    Widget body() {
       return Container(
         child: Form(
             key: _loginFormKey,
@@ -357,7 +359,7 @@ class _LoginState extends State<Login> {
     }
 
     return Scaffold(
-      body: isLoading ? loading() : Body(),
+      body: isLoading ? loading() : body(),
     );
   }
 }

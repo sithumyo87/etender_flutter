@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:etender_app_1/utils/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,6 +25,8 @@ class _PhoneChangeState extends State<PhoneChange> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController phoneController = TextEditingController();
+    TextEditingController passwordControlller = TextEditingController();
     return isLoading ? loading() : body();
   }
 
@@ -53,19 +55,20 @@ class _PhoneChangeState extends State<PhoneChange> {
           children: [
             errorWidget(),
             successWidget(),
-            formWiget(AppLocalizations.of(context)!.add_new_phone,phoneController),
-            formWiget(AppLocalizations.of(context)!.password,oldPasswordController,null,true),
+            formWiget('Phone Number',phoneController),
+            formWiget('Accoun Password',oldPasswordController),
             actionButton(context),
           ],
         ),
-      )
+      ),
+      drawer: AppDrawer(),
     );
   }
 
   AppBar applicationBar() {
     return AppBar(
       centerTitle: true,
-      title:  Text(AppLocalizations.of(context)!.phone_change,
+      title:  Text('Phone Change',
           style: TextStyle(fontSize: 18.0)),
       automaticallyImplyLeading: false,
       leading: IconButton(
@@ -74,17 +77,6 @@ class _PhoneChangeState extends State<PhoneChange> {
           goToBack();
         },
       ),
-      actions: [
-        IconButton(
-          onPressed: () {
-            goToHomePage(context);
-          },
-          icon: const Icon(
-            Icons.home,
-            size: 18.0,
-          ),
-        ),
-      ],
     );
   }
 
@@ -128,19 +120,17 @@ class _PhoneChangeState extends State<PhoneChange> {
     Navigator.of(context).pop();
   }
 
-
   void goToHomePage(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(
         context, '/division_choice', (route) => false);
   }
 
   Widget formWiget(String name, TextEditingController textController,
-      [hintTxt,checkps=false]) {
+      [hintTxt]) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: TextFormField(
         controller: textController,
-        obscureText: checkps,
         decoration: InputDecoration(
           isDense: true,
           border: OutlineInputBorder(),
@@ -169,7 +159,7 @@ class _PhoneChangeState extends State<PhoneChange> {
             style: ElevatedButton.styleFrom(
                 primary: Colors.black38,
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7)),
-            child: Text(AppLocalizations.of(context)!.cancel, style: TextStyle(fontSize: 15))),
+            child: Text('Cancel', style: TextStyle(fontSize: 15))),
         SizedBox(
           width: 10,
         ),
@@ -181,13 +171,10 @@ class _PhoneChangeState extends State<PhoneChange> {
               if (_formKey.currentState!.validate()) {
                 startLoading();
                 changeSetting();
-                _formKey.currentState?.reset();
-                  phoneController.clear();
-                  oldPasswordController.clear();
               }
             },
             child: Text(
-              AppLocalizations.of(context)!.update,
+              'Update',
               style: TextStyle(fontSize: 15),
             )),
       ],
@@ -217,7 +204,7 @@ class _PhoneChangeState extends State<PhoneChange> {
         });
         stopLoading();
         setState(() {
-          successMsg = AppLocalizations.of(context)!.phone_change_upd;
+          successMsg = 'Password Updated!';
           errorMsg = null;
         });
         print(data);
